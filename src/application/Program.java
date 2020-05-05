@@ -27,6 +27,7 @@ public class Program {
 		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 		System.out.print("Digite o caminho do arquivo a ser lido: ");
 		String arquivo = input.readLine();
+		long start = System.currentTimeMillis();
 		
 		try {			
 			BufferedReader bf = new BufferedReader(new FileReader(arquivo));
@@ -57,13 +58,14 @@ public class Program {
 			bf.close();
 		}
 		catch(FileNotFoundException e) {
-			System.out.println("Erro na abertura do arquivo: " + e.getMessage());
-			
+			System.out.println("Erro na abertura do arquivo: " + e.getMessage());			
 		}	
 		
 		for(Location loc : locais) {
 			novoHistograma(loc.getFrequentadores());
 		}
+		
+		long end = System.currentTimeMillis();
 		
 		try {
 			System.out.println();
@@ -84,12 +86,11 @@ public class Program {
 			System.out.println("Arquivo não encontrado: " + e.getMessage());
 		}
 		
-		
+		long tempo = end - start;
+		System.out.println("Tempo de leitura: " + tempo + " milissegundos.");			
 	}
 	
-	public static void novoLocal(String x, String y){
-
-		
+	public static void novoLocal(String x, String y){		
 		if(x.equals("0") && y.equals("0")) return;
 		
 		int cX = Integer.parseInt(x);
