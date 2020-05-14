@@ -1,15 +1,17 @@
 package entities;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Location {
 	
 	int cX;
 	int cY;
-	int frequentadores;
+	private Set<Frequentador> frequentadores = new HashSet<Frequentador>();
 	
 	public Location(int cX, int cY) {		
 		this.cX = cX;
-		this.cY = cY;
-		this.frequentadores = 1;
+		this.cY = cY;		
 	}
 
 	public int getcX() {
@@ -20,14 +22,9 @@ public class Location {
 		return cY;
 	}
 
-	public int getFrequentadores() {
+	public Set<Frequentador> getFrequentadores() {
 		return frequentadores;
-	}
-	
-	public void increment() {		
-		frequentadores += 1;
-		return;
-	}
+	}	
 
 	@Override
 	public int hashCode() {
@@ -54,6 +51,18 @@ public class Location {
 		return true;
 	}
 	
+	public void adicionarFrequentador(Frequentador frequentador) {
+		frequentadores.add(frequentador);
+	}
 	
+	public void exibirFrequentadores() {
+		for(Frequentador f : frequentadores) {
+			System.out.print(f.getId() + " ");
+		}
+	}
+	
+	public int quantidadeDeFrequentadores() {
+		return frequentadores.size();
+	}
 
 }

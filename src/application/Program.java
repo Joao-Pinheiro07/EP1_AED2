@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import entities.Frequentador;
 import entities.Histograma;
 import entities.Location;
 
@@ -39,15 +40,16 @@ public class Program {
 			while(linha != null) {
 				String[] dados = linha.split(",");				
 				
-				novoLocal(dados[2], dados[3]); //domicilios
-				novoLocal(dados[57], dados[58]); //escolas
-				novoLocal(dados[62], dados[63]); //trabalho1
-				novoLocal(dados[71], dados[72]); //trabalho2
-				novoLocal(dados[84], dados[85]); //origem
-				novoLocal(dados[88], dados[89]); //destino
-				novoLocal(dados[92], dados[93]); //transferencia1
-				novoLocal(dados[96], dados[97]); //transferencia2
-				novoLocal(dados[100], dados[101]); //transferencia3	
+				Frequentador frequentador = new Frequentador(Long.parseLong(dados[43]));
+				novoLocal(dados[2], dados[3], frequentador); //domicilios
+				novoLocal(dados[57], dados[58], frequentador); //escolas
+				novoLocal(dados[62], dados[63], frequentador); //trabalho1
+				novoLocal(dados[71], dados[72], frequentador); //trabalho2
+				novoLocal(dados[84], dados[85],frequentador); //origem
+				novoLocal(dados[88], dados[89],frequentador); //destino
+				novoLocal(dados[92], dados[93],frequentador); //transferencia1
+				novoLocal(dados[96], dados[97],frequentador); //transferencia2
+				novoLocal(dados[100], dados[101],frequentador); //transferencia3	
 				
 				System.out.println("Linha " + i + " lida...");
 				i = i + 1;
@@ -62,7 +64,7 @@ public class Program {
 		}	
 		
 		for(Location loc : locais) {
-			novoHistograma(loc.getFrequentadores());
+			novoHistograma(loc.quantidadeDeFrequentadores());
 		}
 		
 		long end = System.currentTimeMillis();
@@ -90,22 +92,23 @@ public class Program {
 		System.out.println("Tempo de leitura: " + tempo + " milissegundos.");			
 	}
 	
-	public static void novoLocal(String x, String y){		
+	public static void novoLocal(String x, String y, Frequentador frequentador){		
 		if(x.equals("0") && y.equals("0")) return;
 		
 		int cX = Integer.parseInt(x);
 		int cY = Integer.parseInt(y);
-		Location novoLocal = new Location(cX, cY);
+		Location novoLocal = new Location(cX, cY);		
 		
 		if(locais.contains(novoLocal)) {
 			for(Location local : locais) {
 				if(novoLocal.equals(local)) {
-					local.increment();
+					local.adicionarFrequentador(frequentador);;
 					break;
 				}
 			}
 		}
 		else {
+			novoLocal.adicionarFrequentador(frequentador);
 			locais.add(novoLocal);
 		}		
 					
